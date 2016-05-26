@@ -115,6 +115,8 @@ public class KolodaView: UIView, DraggableCardDelegate {
         return true
     }
     
+    public var shouldPassthroughTapsWhenNoVisibleCards = false
+    
     //MARK: Lifecycle
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -596,5 +598,13 @@ public class KolodaView: UIView, DraggableCardDelegate {
         } else {
             return nil
         }
+    }
+    
+    public override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        if !shouldPassthroughTapsWhenNoVisibleCards {
+            return super.pointInside(point, withEvent: event)
+        }
+        
+        return visibleCards.count > 0
     }
 }
